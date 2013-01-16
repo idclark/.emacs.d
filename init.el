@@ -37,12 +37,14 @@
     (normal-erase-is-backspace-mode 1))
 
 ; make sure LaTeX plays nice. add tex to PATH
+;also adds bin to launch SML repl 
 (getenv "PATH")
  (setenv "PATH"
 (concat
  "/usr/X11/bin" ":"
  "/usr/texbin" ":"
  "/usr/local/bin/" ":"
+ "/usr/local/smlnj-110.75/bin" ":"
 
 (getenv "PATH")))
 
