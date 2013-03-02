@@ -77,8 +77,8 @@
 (setq ido-everywhere t)
 (ido-mode 1)
 
-(require 'autopair)
-(autopair-global-mode)
+;;(require 'autopair)
+;;(autopair-global-mode)
 
 (require 'auto-complete-config)
 (ac-config-default)
@@ -89,3 +89,5 @@
 (global-set-key "[" 'skeleton-pair-insert-maybe)
 (global-set-key "{" 'skeleton-pair-insert-maybe)
 (global-set-key "\"" 'skeleton-pair-insert-maybe)
+
+(show-paren-mode t)
