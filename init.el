@@ -82,3 +82,10 @@
 
 (require 'auto-complete-config)
 (ac-config-default)
+
+;;custom pairs snippet; credit to Grabriel Elanaro
+(setq skeleton-pair t)
+(global-set-key "(" 'skeleton-pair-insert-maybe)
+(global-set-key "[" 'skeleton-pair-insert-maybe)
+(global-set-key "{" 'skeleton-pair-insert-maybe)
+(global-set-key "\"" 'skeleton-pair-insert-maybe)
