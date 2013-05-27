@@ -23,7 +23,7 @@
     (package-install p)))
 
 ;ess configs
-(add-to-list 'load-path "~/.emacs.d/elpa/ess-20130225.1754/lisp")
+;(add-to-list 'load-path "~/.emacs.d/elpa/ess-20130225.1754/lisp")
 (require 'ess-site)
 (global-set-key [C-tab] 'other-window)
 (define-key comint-mode-map [C-up] 'comint-previous-matching-input-from-input)
