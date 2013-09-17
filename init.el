@@ -22,6 +22,8 @@
   (when (not(package-installed-p p))
     (package-install p)))
 
+(set-face-attribute 'default nil :font "Menlo-14")
+
 ;ess configs
 ;(add-to-list 'load-path "~/.emacs.d/elpa/ess-20130225.1754/lisp")
 (require 'ess-site)
