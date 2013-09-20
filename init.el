@@ -23,6 +23,7 @@
     (package-install p)))
 
 (set-face-attribute 'default nil :font "Menlo-14")
+(scroll-bar-mode -1)
 
 ;ess configs
 ;(add-to-list 'load-path "~/.emacs.d/elpa/ess-20130225.1754/lisp")
