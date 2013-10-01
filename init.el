@@ -22,7 +22,6 @@
   (when (not(package-installed-p p))
     (package-install p)))
 
-(set-face-attribute 'default nil :font "Menlo-14")
 (scroll-bar-mode -1)
 
 ;ess configs
@@ -130,3 +129,4 @@
  ;; If there is more than one, they won't work right.
  )
 (put 'erase-buffer 'disabled nil)
+(set-face-attribute 'default nil :font "Menlo-14")
