@@ -23,6 +23,8 @@
     (package-install p)))
 
 (scroll-bar-mode -1)
+(menu-bar-mode -1)
+(tool-bar-mode -1)
 
 ;ess configs
 ;(add-to-list 'load-path "~/.emacs.d/elpa/ess-20130225.1754/lisp")
