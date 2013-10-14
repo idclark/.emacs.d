@@ -23,7 +23,6 @@
     (package-install p)))
 
 (scroll-bar-mode -1)
-(menu-bar-mode -1)
 (tool-bar-mode -1)
 
 ;ess configs
@@ -82,9 +81,24 @@
 (setq ido-everywhere t)
 (ido-mode 1)
 
+(defun python-shell-send-statement ()
+  "send the current statement to inferior Python process"
+  (interactive)
+  (let ((start (save-excursion
+          (python-nav-beginning-of-statement)
+          (point)))
+    (end (save-excursion
+       (python-nav-end-of-statement)
+       (point))))
+  (when (and start end)
+    (python-shell-send-region start end))))
+
+(add-hook 'python-mode-hook
+      #'(lambda ()
+          (define-key python-mode-map "\C-c\C-j" 'python-shell-send-statement)))
 ;set ipython as default editor for python.el
 (setq
- python-shell-interpreter "/Library/Frameworks/Python.framework/Versions/2.7/bin/ipython"
+ python-shell-interpreter "/Library/Frameworks/Python.framework/Versions/2.7/bin/python"
  python-shell-interpreter-args ""
   python-shell-prompt-regexp "In \\[[0-9]+\\]: "
   python-shell-prompt-output-regexp "Out\\[[0-9]+\\]: "

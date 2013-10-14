@@ -1,4 +1,5 @@
 *.el~
 *.el#
 .DS_Store
-.DS_Store?
+.DS_/
+elpa/*
