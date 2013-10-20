@@ -1,3 +1,7 @@
+(load "~/.emacs.d/global-config")
+(load "~/.emacs.d/stats-config")
+(load "~/.emacs.d/python-config")
+(load "~/.emacs.d/clojure-config")
 ;necessary mechanics
 (when (>= emacs-major-version 24)
   (require 'package)
@@ -8,7 +12,9 @@
 (when (not package-archive-contents)
   (package-refresh-contents))
 (defvar my-packages '(ess
-		      nrepl
+		      cider
+		      paredit
+		      powerline
 		      clojure-mode
 		      ac-nrepl
 		      magit

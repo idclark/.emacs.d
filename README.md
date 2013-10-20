@@ -5,6 +5,7 @@ One central configuration for work, home, and virtual machines.
 
 In `~/.emacs` drop in 
 `(add-to-list 'load-path "~/.emacs.d/")`
+
 `(load-file "~/.emacs.d/init.el")`
 
 Supported Modes: Requires Emacs 24 or package.el
