@@ -8,8 +8,10 @@
 (when (not package-archive-contents)
   (package-refresh-contents))
 (defvar my-packages '(ess
-		      nrepl
+		      cider
 		      clojure-mode
+		      paredit
+		      project-explorer
 		      ac-nrepl
 		      magit
 		      auctex
@@ -48,3 +50,4 @@
 
 (require 'auto-complete-config)
 (ac-config-default)
+(require 'project-explorer)
