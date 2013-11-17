@@ -11,6 +11,7 @@
 (if (display-graphic-p)
     (normal-erase-is-backspace-mode 1))
 
+(setq inferior-julia-program-name "/Applications/Julia-0.2.0.app/Contents/Resources/julia/bin/julia-basic" )
 
 ; make sure LaTeX plays nice. add tex to PATH
 ;also adds bin to launch SML repl 
