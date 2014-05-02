@@ -29,7 +29,7 @@
 (setq inhibit-startup-message t)
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
-(set-face-attribute 'default nil :font "Menlo-14")
+;(set-face-attribute 'default nil :font "Menlo-14")
 
 ;global modes 
 (hl-line-mode t)
