@@ -15,7 +15,7 @@
 		      ac-nrepl
 		      magit
 		      auctex
-		      ido-ubiquitous
+		      idoiquitous
 		      color-theme-sanityinc-tomorrow
 		      autopair
 		      popup
@@ -43,10 +43,10 @@
 ;(require 'powerline)
 (setq powerline-arrow-shape 'arrow14)
 ;(powerline-default-theme t)
-(require 'ido)
+(require 'ido-vertical-mode)
 (setq ido-enable-flex-mathing t)
 (setq ido-everywhere t)
-(ido-mode 1)
+(ido-vertical-mode 1)
 
 (require 'auto-complete-config)
 (ac-config-default)
