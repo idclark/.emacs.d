@@ -1,4 +1,4 @@
-;necessary mechanics
+;necessary mechanicse
 (when (>= emacs-major-version 24)
   (require 'package)
 (add-to-list 'package-archives
@@ -15,7 +15,8 @@
 		      ac-nrepl
 		      magit
 		      auctex
-		      idoiquitous
+		      ido-ubiquitous
+		      ido-vertical-mode
 		      color-theme-sanityinc-tomorrow
 		      autopair
 		      popup
@@ -43,7 +44,9 @@
 ;(require 'powerline)
 (setq powerline-arrow-shape 'arrow14)
 ;(powerline-default-theme t)
+(require 'ido)
 (require 'ido-vertical-mode)
+(ido-mode 1)
 (setq ido-enable-flex-mathing t)
 (setq ido-everywhere t)
 (ido-vertical-mode 1)
