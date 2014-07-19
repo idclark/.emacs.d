@@ -14,9 +14,8 @@
 		      project-explorer
 		      ac-nrepl
 		      magit
+		      helm
 		      auctex
-		      ido-ubiquitous
-		      ido-vertical-mode
 		      color-theme-sanityinc-tomorrow
 		      autopair
 		      popup
