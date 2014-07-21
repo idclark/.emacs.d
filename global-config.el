@@ -14,6 +14,7 @@
 		      project-explorer
 		      ac-nrepl
 		      magit
+		      git-gutter+
 		      helm
 		      auctex
 		      color-theme-sanityinc-tomorrow
@@ -40,16 +41,10 @@
 (global-set-key "{" 'skeleton-pair-insert-maybe)
 (global-set-key "\"" 'skeleton-pair-insert-maybe)
 
-;(require 'powerline)
-(setq powerline-arrow-shape 'arrow14)
-;(powerline-default-theme t)
-(require 'ido)
-(require 'ido-vertical-mode)
-(ido-mode 1)
-(setq ido-enable-flex-mathing t)
-(setq ido-everywhere t)
-(ido-vertical-mode 1)
-
 (require 'auto-complete-config)
 (ac-config-default)
 (require 'project-explorer)
+
+(global-git-gutter+-mode t)
+(set-face-background 'git-gutter+-modified "blue") ;; background color
+(set-face-foreground 'git-gutter+-added "green")
