@@ -46,6 +46,8 @@
 (require 'project-explorer)
 
 (global-git-gutter+-mode t)
+(setq git-gutter+-modified-sign "  ")
+(setq git-gutter+-added-sign "  ")
 (set-face-background 'git-gutter+-modified "blue") ;; background color
 (set-face-foreground 'git-gutter+-added "green")
 ;put web-mode for html editing here as no config file for web specific stuff
