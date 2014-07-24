@@ -48,3 +48,5 @@
 (global-git-gutter+-mode t)
 (set-face-background 'git-gutter+-modified "blue") ;; background color
 (set-face-foreground 'git-gutter+-added "green")
+;put web-mode for html editing here as no config file for web specific stuff
+(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
