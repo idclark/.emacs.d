@@ -12,7 +12,6 @@
 		      clojure-mode
 		      paredit
 		      project-explorer
-		      ac-nrepl
 		      magit
 		      git-gutter+
 		      helm

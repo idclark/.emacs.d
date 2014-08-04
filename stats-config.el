@@ -20,11 +20,12 @@
 (concat
  "/usr/X11/bin" ":"
  "/usr/texbin" ":"
- "/usr/local/bin/" ":"
+ "/usr/local/bin" ":"
  "/usr/local/smlnj-110.75/bin" ":"
 
 (getenv "PATH")))
 (setq exec-path (cons "/usr/local/smlnj-110.75/bin" exec-path))
+(setq exec-path (cons "/usr/local/bin" exec-path))
 ;;launch skim
 (add-hook 'LaTeX-mode-hook 'TeX-source-correlate-mode)
 
