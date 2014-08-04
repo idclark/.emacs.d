@@ -8,6 +8,13 @@ In `~/.emacs` drop in
 
 `(load-file "~/.emacs.d/init.el")`
 
+In `init.el`
+
+`(load "~/.emacs.d/global-config")`
+`(load "~/.emacs.d/stats-config")`
+`(load "~/.emacs.d/python-config")`
+`(load "~/.emacs.d/clojure-config")`
+
 Supported Modes: Requires Emacs 24 or package.el
 ---------------
 
