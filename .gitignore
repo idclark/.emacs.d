@@ -3,3 +3,4 @@
 .DS_Store
 .DS_/
 elpa/*
+/ac-comphist.dat
