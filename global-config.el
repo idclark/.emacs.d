@@ -39,6 +39,7 @@
 (global-set-key "[" 'skeleton-pair-insert-maybe)
 (global-set-key "{" 'skeleton-pair-insert-maybe)
 (global-set-key "\"" 'skeleton-pair-insert-maybe)
+(global-set-key (kbd "M-x") 'smex)
 
 (require 'auto-complete-config)
 (ac-config-default)
