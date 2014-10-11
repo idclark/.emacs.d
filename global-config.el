@@ -30,6 +30,9 @@
 (tool-bar-mode -1)
 (set-face-attribute 'default nil :font "Menlo-14")
 
+;swap query replace, with abbrev. expansion
+(global-set-key (kbd "M-/") 'query-replace)
+(global-set-key (kbd "M-%") 'abbrev-expansion)
 ;global modes 
 (hl-line-mode t)
 (show-paren-mode t)
