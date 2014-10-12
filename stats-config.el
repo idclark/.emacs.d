@@ -3,11 +3,6 @@
 (define-key comint-mode-map [C-up] 'comint-previous-matching-input-from-input)
 (define-key comint-mode-map [C-down] 'comint-next-matching-input-from-input)
 
-(setq mac-option-key-is-meta nil
-      mac-command-key-is-meta t
-      mac-command-modifier 'meta
-      mac-option-modifier 'none)
-
 (if (display-graphic-p)
     (normal-erase-is-backspace-mode 1))
 

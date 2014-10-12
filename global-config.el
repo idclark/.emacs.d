@@ -30,9 +30,19 @@
 (tool-bar-mode -1)
 (set-face-attribute 'default nil :font "Menlo-14")
 
+(setq mac-option-key-is-meta nil
+      mac-command-key-is-meta t
+      mac-command-modifier 'meta
+      mac-option-modifier 'none)
+
+(global-set-key (kbd "RET") 'newline-and-indent)
+
 ;swap query replace, with abbrev. expansion
 (global-set-key (kbd "M-/") 'query-replace)
 (global-set-key (kbd "M-%") 'abbrev-expansion)
+;same for regexp
+(global-set-key (kbd "C-M-/") 'query-replace-regexp)
+
 ;global modes 
 (hl-line-mode t)
 (show-paren-mode t)
@@ -57,5 +67,3 @@
 
 ;put web-mode for html editing here as no config file for web specific stuff
 (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
-
-
