@@ -13,6 +13,7 @@
 		      paredit
 		      project-explorer
 		      magit
+		      ido
 		      git-gutter
 		      helm
 		      auctex
@@ -57,6 +58,9 @@
 (require 'auto-complete-config)
 (ac-config-default)
 (require 'project-explorer)
+
+(require 'ido)
+(ido-mode t)
 
 (global-git-gutter-mode t)
 (setq git-gutter:modified-sign "  ")
