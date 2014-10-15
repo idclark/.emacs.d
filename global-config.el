@@ -29,7 +29,8 @@
 (setq inhibit-startup-message t)
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
-(set-face-attribute 'default nil :font "Menlo-14")
+(cond (window-system 
+       (set-face-attribute 'default nil :font "Menlo-14")))
 
 (setq mac-option-key-is-meta nil
       mac-command-key-is-meta t
@@ -45,6 +46,9 @@
 (global-set-key (kbd "C-M-/") 'query-replace-regexp)
 
 ;global modes 
+(require 'hl-line-mode)
+(require 'paredit-mode)
+(paredit-mode t)
 (hl-line-mode t)
 (show-paren-mode t)
 ;;custom pairs snippet; credit to Grabriel Elanaro
