@@ -46,8 +46,6 @@
 (global-set-key (kbd "C-M-/") 'query-replace-regexp)
 
 ;global modes 
-(require 'hl-line-mode)
-(require 'paredit-mode)
 (paredit-mode t)
 (hl-line-mode t)
 (show-paren-mode t)
