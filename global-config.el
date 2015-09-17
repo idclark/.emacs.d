@@ -12,6 +12,7 @@
 		      clojure-mode
 		      paredit
 		      project-explorer
+		      smex
 		      magit
 		      ido
 		      git-gutter
