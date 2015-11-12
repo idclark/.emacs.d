@@ -1,3 +1,6 @@
+(add-hook 'python-mode-hook 'anaconda-mode)
+(add-hook 'python-mode-hook 'ac-anaconda-setup)
+
 (defun python-shell-send-statement ()
   "send the current statement to inferior Python process"
   (interactive)
@@ -15,7 +18,7 @@
           (define-key python-mode-map "\C-c\C-j" 'python-shell-send-statement)))
 ;set ipython as default editor for python.el
 (setq
- python-shell-interpreter "/Library/Frameworks/Python.framework/Versions/2.7/bin/python"
+ python-shell-interpreter "/Users/idclark/anaconda/bin/ipython"
 ; python-shell-interpreter-args ""
  ; python-shell-prompt-regexp "In \\[[0-9]+\\]: "
   ;python-shell-prompt-output-regexp "Out\\[[0-9]+\\]: "
