@@ -48,7 +48,8 @@
 
 ;global modes 
 (paredit-mode t)
-(hl-line-mode t)
+(global-hl-line-mode t)
+(blink-cursor-mode 0)
 (show-paren-mode t)
 ;;custom pairs snippet; credit to Grabriel Elanaro
 (setq skeleton-pair t)

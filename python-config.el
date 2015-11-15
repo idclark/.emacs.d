@@ -1,5 +1,6 @@
 (add-hook 'python-mode-hook 'anaconda-mode)
 (add-hook 'python-mode-hook 'ac-anaconda-setup)
+(add-hook 'python-mode-hook 'eldoc-mode-hook)
 
 (defun python-shell-send-statement ()
   "send the current statement to inferior Python process"
