@@ -17,6 +17,7 @@
  "/usr/texbin" ":"
  "/usr/local/bin" ":"
  "/usr/local/smlnj-110.75/bin" ":"
+ "/Applications/Postgres.app/Contents/Versions/9.4/bin" ":"
 
 (getenv "PATH")))
 (setq exec-path (cons "/usr/local/smlnj-110.75/bin" exec-path))
