@@ -65,7 +65,7 @@
 (ido-mode t)
 
 ;;nasty hack for ispell
-(setq ispell-program-name "/usr/local/Cellar/ispell/3.3.02/bin/ispell")
+(setq ispell-program-name "/usr/local/Cellar/ispell/3.4.00/bin/ispell")
 
 (global-git-gutter-mode t)
 (setq git-gutter:modified-sign "  ")
