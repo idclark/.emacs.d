@@ -13,8 +13,7 @@
 		      paredit
 		      magit
 		      ido
-		      git-gutter
-		      helm
+		      git-gutter		      
 		      auctex
 		      color-theme-sanityinc-tomorrow
 		      autopair
