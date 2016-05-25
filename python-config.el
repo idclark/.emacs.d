@@ -1,6 +1,9 @@
+(require 'ein)
+;(setq ein:use-smartrep t)
 (add-hook 'python-mode-hook 'anaconda-mode)
-(add-hook 'python-mode-hook 'ac-anaconda-setup)
 (add-hook 'python-mode-hook 'eldoc-mode-hook)
+(add-hook 'python-mode-hook 'ac-anaconda)
+(add-hook 'python-mode-hook 'ac-anaconda-setup)
 
 (defun python-shell-send-statement ()
   "send the current statement to inferior Python process"
@@ -14,7 +17,7 @@
   (when (and start end)
     (python-shell-send-region start end))))
 
-(add-hook 'python-mode-hook
+(add-hook 'anaconda-mode-hook
       #'(lambda ()
           (define-key python-mode-map "\C-c\C-j" 'python-shell-send-statement)))
 ;set ipython as default editor for python.el
