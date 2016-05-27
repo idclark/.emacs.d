@@ -22,7 +22,25 @@
 (dolist (p my-packages)
   (when (not(package-installed-p p))
     (package-install p)))
+; make sure LaTeX plays nice. add tex to PATH
+;also adds bin to launch SML repl 
+(getenv "PATH")
+ (setenv "PATH"
+(concat
+ "/usr/X11/bin" ":"
+ "/usr/texbin" ":"
+ "/usr/local/bin" ":"
+ "/usr/local/smlnj-110.75/bin" ":"
+ "/Applications/Postgres.app/Contents/Versions/9.4/bin" ":"
 
+(getenv "PATH")))
+(setq exec-path (cons "/usr/local/smlnj-110.75/bin" exec-path))
+(setq exec-path (cons "/usr/local/bin" exec-path))
+(setq exec-path (cons "/Applications/Postgres.app/Contents/Versions/9.4/bin" exec-path))
+
+(setenv "SHELL"
+	"/usr/local/bin/zsh")
+(getenv "SHELL")
 (setq inhibit-splash-screen t)
 (setq inhibit-startup-message t)
 (scroll-bar-mode -1)
