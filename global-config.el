@@ -18,7 +18,7 @@
 		      color-theme-sanityinc-tomorrow
 		      autopair
 		      popup
-		      auto-complete))
+		      ))
 (dolist (p my-packages)
   (when (not(package-installed-p p))
     (package-install p)))
@@ -36,6 +36,7 @@
       mac-option-modifier 'none)
 
 (global-set-key (kbd "RET") 'newline-and-indent)
+(global-set-key [C-tab] 'other-window)
 
 ;swap query replace, with abbrev. expansion
 (global-set-key (kbd "M-/") 'query-replace)
@@ -55,10 +56,6 @@
 (global-set-key "{" 'skeleton-pair-insert-maybe)
 (global-set-key "\"" 'skeleton-pair-insert-maybe)
 (global-set-key (kbd "M-x") 'smex)
-
-(require 'auto-complete-config)
-(ac-config-default)
-(require 'project-explorer)
 
 (require 'ido)
 (ido-mode t)

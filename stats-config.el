@@ -1,12 +1,10 @@
 (require 'ess-site)
-(global-set-key [C-tab] 'other-window)
+
 (define-key comint-mode-map [C-up] 'comint-previous-matching-input-from-input)
 (define-key comint-mode-map [C-down] 'comint-next-matching-input-from-input)
 
 (if (display-graphic-p)
     (normal-erase-is-backspace-mode 1))
-
-(setq inferior-julia-program-name "/Applications/Julia-0.2.0.app/Contents/Resources/julia/bin/julia-basic" )
 
 ; make sure LaTeX plays nice. add tex to PATH
 ;also adds bin to launch SML repl 
