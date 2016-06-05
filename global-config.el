@@ -81,6 +81,8 @@
 ;;nasty hack for ispell
 (setq ispell-program-name "/usr/local/Cellar/ispell/3.4.00/bin/ispell")
 
+(add-hook 'after-init-hook #'global-flycheck-mode)
+
 (global-git-gutter-mode t)
 (setq git-gutter:modified-sign "  ")
 (setq git-gutter:added-sign "  ")
