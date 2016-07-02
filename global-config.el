@@ -67,6 +67,8 @@
 (global-hl-line-mode t)
 (blink-cursor-mode 0)
 (show-paren-mode t)
+(add-hook 'after-init-hook 'global-company-mode)
+
 ;;custom pairs snippet; credit to Grabriel Elanaro
 (setq skeleton-pair t)
 (global-set-key "(" 'skeleton-pair-insert-maybe)
