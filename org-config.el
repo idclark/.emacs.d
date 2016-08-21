@@ -6,5 +6,5 @@
 (setq org-todo-keyword-faces
       '(("IN-PROGRESS" . "orange") ("PENDING" . "yellow")))
 
-(setq org-tag-alist '(("@jobs" . ?j) ("@python" . ?p) ("blogs" . ?b)
-		      ("@ml-stats" . ?ml) ("finance" . ?f)))
+;(setq org-tag-alist '(("@jobs" . ?j) ("@python" . ?p) ("blogs" . ?b)
+;		      ("@ml-stats" . ?ml) ("finance" . ?f)))

@@ -1,6 +1,6 @@
 (require 'ess-site)
 
-(require 'company-ess)
+;(require 'company-ess)
 
 ; Enabling the backend :
 ; Globally - company ess-backend checks ess mode 
