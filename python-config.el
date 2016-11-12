@@ -1,12 +1,8 @@
-(require 'ein)
-
-(eval-after-load "company"
-  '(add-to-list 'company-backends 'company-anaconda))
-
 (add-hook 'python-mode-hook 'anaconda-mode)
 (add-hook 'python-mode-hook 'eldoc-mode-hook)
+(add-hook 'python-mode-hook 'ac-anaconda-setup)
 
-(defun python-shell-send-statement ()
+(defun 'python-shell-send-statement
   "send the current statement to inferior Python process"
   (interactive)
   (let ((start (save-excursion
@@ -33,3 +29,8 @@
     "';'.join(module_completion('''%s'''))\n"
   python-shell-completion-string-code
     "';'.join(get_ipython().Completer.all_completions('''%s'''))\n")
+
+;setup jupyter notebook
+(require 'ein)
+(setq ein:use-auto-complete t)
+(setq ein:use-smartrep t)
