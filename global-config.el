@@ -32,11 +32,13 @@
  "/usr/local/bin" ":"
  "/usr/local/smlnj-110.75/bin" ":"
  "/Applications/Postgres.app/Contents/Versions/9.4/bin" ":"
+ "/Users/idclark/go/bin" ":"
 
 (getenv "PATH")))
 (setq exec-path (cons "/usr/local/smlnj-110.75/bin" exec-path))
 (setq exec-path (cons "/usr/local/bin" exec-path))
 (setq exec-path (cons "/Applications/Postgres.app/Contents/Versions/9.4/bin" exec-path))
+(setq exec-path (cons "/Users/idclark/go/bin" exec-path))
 
 (setenv "SHELL"
 	"/usr/local/bin/zsh")
@@ -67,6 +69,8 @@
 (global-hl-line-mode t)
 (blink-cursor-mode 0)
 (show-paren-mode t)
+(require 'go-autocomplete)
+(require 'auto-complete-config)
 (ac-config-default)
 
 ;;custom pairs snippet; credit to Grabriel Elanaro

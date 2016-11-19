@@ -10,6 +10,7 @@
 (load "~/.emacs.d/python-config")
 (load "~/.emacs.d/clojure-config")
 (load "~/.emacs.d/org-config")
+(load "~/.emacs.d/go-config")
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.

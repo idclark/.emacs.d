@@ -15,7 +15,7 @@
           (point)))
     (end (save-excursion
        (python-nav-end-of-statement)
-       (point))))
+      (point))))
   (when (and start end)
     (python-shell-send-region start end))))
 
