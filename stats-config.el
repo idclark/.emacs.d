@@ -1,11 +1,5 @@
 (require 'ess-site)
 
-;(require 'company-ess)
-
-; Enabling the backend :
-; Globally - company ess-backend checks ess mode 
-(add-to-list 'company-backends 'company-ess-backend)
-
 (define-key comint-mode-map [C-up] 'comint-previous-matching-input-from-input)
 (define-key comint-mode-map [C-down] 'comint-next-matching-input-from-input)
 
