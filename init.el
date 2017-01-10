@@ -11,6 +11,8 @@
 (load "~/.emacs.d/clojure-config")
 (load "~/.emacs.d/org-config")
 (load "~/.emacs.d/go-config")
+(load "~/.emacs.d/cpp-config")
+(load "~/.emacs.d/scala-config")
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.

@@ -2,6 +2,10 @@
 (add-hook 'python-mode-hook 'eldoc-mode-hook)
 (add-hook 'python-mode-hook 'ac-anaconda-setup)
 
+(setq jedi:server-args
+      '("--sys-path" "/Users/idclark/anaconda/envs/python3/lib/python3.5/site-packages"
+        ))
+(add-hook 'python-mode-hook 'jedi:ac-setup)
 ;setup jupyter notebook
 (require 'ein)
 (setq ein:use-auto-complete-superpack t)
@@ -34,3 +38,5 @@
     "';'.join(module_completion('''%s'''))\n"
   python-shell-completion-string-code
     "';'.join(get_ipython().Completer.all_completions('''%s'''))\n")
+
+(provide 'python-config)

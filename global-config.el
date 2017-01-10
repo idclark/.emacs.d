@@ -33,12 +33,15 @@
  "/usr/local/smlnj-110.75/bin" ":"
  "/Applications/Postgres.app/Contents/Versions/9.4/bin" ":"
  "/Users/idclark/go/bin" ":"
+ "/Users/idclark/anaconda/envs/python35/bin" ":"
 
 (getenv "PATH")))
 (setq exec-path (cons "/usr/local/smlnj-110.75/bin" exec-path))
 (setq exec-path (cons "/usr/local/bin" exec-path))
 (setq exec-path (cons "/Applications/Postgres.app/Contents/Versions/9.4/bin" exec-path))
 (setq exec-path (cons "/Users/idclark/go/bin" exec-path))
+
+(setenv "GOPATH" "/Users/idclark/go")
 
 (setenv "SHELL"
 	"/usr/local/bin/zsh")
@@ -88,6 +91,9 @@
 (setq ispell-program-name "/usr/local/Cellar/ispell/3.4.00/bin/ispell")
 
 (add-hook 'after-init-hook #'global-flycheck-mode)
+
+(with-eval-after-load 'flycheck
+  (flycheck-pos-tip-mode))
 
 (global-git-gutter-mode t)
 (setq git-gutter:modified-sign "  ")
