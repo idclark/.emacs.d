@@ -147,7 +147,24 @@
   :init
   (load-theme 'sanityinc-tomorrow-eighties 'no-confirm))
 
+(use-package flycheck               ; On the fly syntax checking for major modes
+  :ensure t
+  :defer 1
+  :config
+  (global-flycheck-mode))
+
+(use-package flycheck-pos-tip      ; Flycheck error appear in tooltip
+  :ensure t
+  :after flycheck
+  :config
+   (flycheck-pos-tip-mode))
+  
+
+;;; Major Modes Start Here
 
 
+(use-package web                  ; HTML and CSS editing
+  :defer t
+  :mode "\\.html?\\'")
 
 (provide 'init);;; init.el ends here
