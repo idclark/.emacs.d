@@ -240,11 +240,34 @@
   (setq org-tag-alist '(("@jobs" . ?j) ("@python" . ?p) ("blogs" . ?b)
 			("@ml-stats" . ?ml) ("finance" . ?f))))
 
-
+(use-package go-mode                   ; Major Mode for Editing Golang
   
+  ; http://tleyden.github.io/blog/2014/05/22/configure-emacs-as-a-go-editor-from-scratch/
+  :defer t
+  :bind (("M-." . godef-jump)
+	 ("M-*" . pop-tag-mark))
+  :config
+  (add-hook 'before-save-hook 'gofmt-before-save))
+
 (use-package web-mode                  ; HTML and CSS Editing
   :defer t
   :mode "\\.html?\\'")
 
+(use-package irony                      ; Major Mode for C/C++/Obj-C
+  :defer t
+  :config
+   (add-hook 'c++-mode-hook 'irony-mode)
+   (add-hook 'c-mode-hook 'irony-mode)
+   (add-hook 'objc-mode-hook 'irony-mode))
+
+(use-package company-irony              ; Company Backend for C/C++
+  :defer t
+  :after company
+  :config (add-to-list 'company-backends 'company-anaconda))
+
+;;; ENSIME is a framework for interactive Scala / Apache Spark
+(use-package ensime                     ; Major Mode for Scala / Java
+  :ensure t
+  :pin melpa-stable)
 
 (provide 'init);;; init.el ends here
