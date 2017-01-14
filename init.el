@@ -162,6 +162,19 @@
 
 ;;; Major Modes Start Here
 
+(use-package ess                  ; Major Mode for R and S+
+  :ensure t
+  :defer 1
+  :init
+  (require 'ess-site)
+  :config
+  (define-key comint-mode-map [C-up] 'comint-previous-matching-input-from-input)
+  (define-key comint-mode-map [C-down] 'comint-next-matching-input-from-input)
+
+  (if (display-graphic-p)
+      (normal-erase-is-backspace-mode 1))
+  )
+  
 
 (use-package web                  ; HTML and CSS editing
   :defer t
