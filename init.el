@@ -174,9 +174,42 @@
   (if (display-graphic-p)
       (normal-erase-is-backspace-mode 1))
   )
-  
 
-(use-package web                  ; HTML and CSS editing
+(use-package python               ; Python Major mode
+  :defer t
+  :config
+  ;; PEP 8 compliant filling rules, 79 chars maximum
+  (add-hook 'python-mode-hook (lambda () (validate-setq fill-column 79)))
+
+  (let ((ipython (executable-find "ipython")))
+    (if ipython
+        (validate-setq python-shell-interpreter ipython)
+      (warn "IPython is missing, falling back to default python"))))
+
+(use-package anaconda-mode        ; Backend for Python mode
+  :ensure t
+  :defer t
+  :init (add-hook 'python-mode-hook #'anaconda-mode-hook))
+
+(use-package company-anaconda    ; Backend for Company
+  :ensure t
+  :after company
+  :config (add-to-list 'company-backends 'company-anaconda))
+
+(use-package pyenv-mode           ; Virtual Environ
+  :esure t
+  :defer t
+  :after python
+  :init
+  (pyenv-mode))
+
+(use-package ein                   ; Jupyter Notebook Support
+  :ensure t
+  :defer t
+  :mode "\\.ipynb\\"
+  :init (require 'ein))
+  
+(use-package web-mode                  ; HTML and CSS Editing
   :defer t
   :mode "\\.html?\\'")
 
