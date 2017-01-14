@@ -122,7 +122,10 @@
   '(global-hl-line-mode t)))
 
 (use-package paredit                 ; Must have for lisps
-  :defer t)
+  :defer t
+  :config
+   (add-hook 'clojure-mode-hook 'paredit-mode)
+   (add-hook 'cider-repl-mode-hook 'paredit-mode))
 
 (use-package autopair                ; Auto matching of )}]" chars
   :ensure t)
@@ -208,6 +211,18 @@
   :defer t
   :mode "\\.ipynb\\"
   :init (require 'ein))
+
+(use-package cider                  ; Clojure REPL and Major Mode
+  ; https://github.com/clojure-emacs/cider/blob/master/doc/code_completion.md
+  :defer t
+  :config
+  (add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
+  (eval-after-load 'flycheck '(flycheck-clojure-setup))
+
+  (eval-after-load 'flycheck
+    '(setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
+  )
+	    
   
 (use-package web-mode                  ; HTML and CSS Editing
   :defer t
