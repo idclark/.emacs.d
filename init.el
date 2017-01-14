@@ -223,9 +223,28 @@
     '(setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
   )
 	    
+(use-package org                       ; Org Mode for plain text notes and agenda
+  :ensure t
+  :defer t
+  :config
+  ;insert timestamp on done todo items
+  (setq org-log-done 'time)
+  (setq org-src-fontify-natively t)
+  (setq org-src-tab-acts-natively t)
+  (setq org-todo-keywords
+	'((sequence "TODO" "IN-PROGRESS" "PENDING" "DONE")))
+
+  (setq org-todo-keyword-faces
+	'(("IN-PROGRESS" . "orange") ("PENDING" . "yellow")))
+
+  (setq org-tag-alist '(("@jobs" . ?j) ("@python" . ?p) ("blogs" . ?b)
+			("@ml-stats" . ?ml) ("finance" . ?f))))
+
+
   
 (use-package web-mode                  ; HTML and CSS Editing
   :defer t
   :mode "\\.html?\\'")
+
 
 (provide 'init);;; init.el ends here
