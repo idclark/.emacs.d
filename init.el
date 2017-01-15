@@ -161,11 +161,33 @@
   :after flycheck
   :config
    (flycheck-pos-tip-mode))
-  
+
+;;; Autocompletion configurations
+(use-package yasnippet              ; Snippets
+  :ensure t
+  :defer t)
+
+(use-package company                ; Graphical auto completion
+  :ensure t
+  :defer 1
+  :config
+  (global-company-mode)
+
+  (validate-setq
+   company-tooltip-align-annotations t
+   company-tooltip-flip-when-above t
+   ;; Easy navigation to candidates with M-<n>
+   company-show-numbers t)
+  :diminish company-mode)
+
+(use-package company-quickhelp      ; Show help in tooltip
+  :ensure t
+  :after company
+  :config (company-quickhelp-mode))
 
 ;;; Major Modes Start Here
 
-(use-package ess                  ; Major Mode for R and S+
+(use-package ess                    ; Major Mode for R and S+
   :ensure t
   :defer 1
   :init
@@ -178,7 +200,7 @@
       (normal-erase-is-backspace-mode 1))
   )
 
-(use-package python               ; Python Major mode
+(use-package python                  ; Python Major mode
   :defer t
   :config
   ;; PEP 8 compliant filling rules, 79 chars maximum
@@ -200,7 +222,7 @@
   :config (add-to-list 'company-backends 'company-anaconda))
 
 (use-package pyenv-mode           ; Virtual Environ
-  :esure t
+  :ensure t
   :defer t
   :after python
   :init
@@ -237,8 +259,8 @@
   (setq org-todo-keyword-faces
 	'(("IN-PROGRESS" . "orange") ("PENDING" . "yellow")))
 
-  (setq org-tag-alist '(("@jobs" . ?j) ("@python" . ?p) ("blogs" . ?b)
-			("@ml-stats" . ?ml) ("finance" . ?f))))
+  (setq org-tag-alist '(("@jobs" . ?j) ("@python" . ?p) ("@blogs" . ?b)
+			("@ml-stats" . ?m) ("@finance" . ?f))))
 
 (use-package go-mode                   ; Major Mode for Editing Golang
   
@@ -268,6 +290,6 @@
 ;;; ENSIME is a framework for interactive Scala / Apache Spark
 (use-package ensime                     ; Major Mode for Scala / Java
   :ensure t
-  :pin melpa-stable)
+  :defer t)
 
 (provide 'init);;; init.el ends here
