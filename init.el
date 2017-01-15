@@ -67,6 +67,10 @@
 (require 'subr-x)
 (require 'time-date)
 
+;;; Move Customization file out of init.el
+(setq custom-file "~/.emacs.d/custom.el")
+(load custom-file)
+
 ;;; Disable the site default settings
 (setq inhibit-default-init t)
 
@@ -77,10 +81,12 @@
 ;;; Environment Fixup - grab PATH and friends from .zshenv
 (use-package exec-path-from-shell
   :ensure t
-  :config
+  :defer f
+  :init
   (exec-path-from-shell-copy-env "GOPATH")
   (exec-path-from-shell-copy-env "SHELL")
-  (when (memq window-system '(mac ns))
+  (exec-path-from-shell-copy-env "PATH")
+  (when (memq window-system '(mac ns x))
     (exec-path-from-shell-initialize)))
 
 ;;; OS X support
@@ -113,7 +119,9 @@
 (use-package ido                      ; Better file completion with C-x C-f
   :ensure t
   :config
-  (ido-mode t))
+  (custom-set-variables
+   '(ido-everywhere t)
+   '(ido-mode t)))
 
 (use-package hl-line                  ; Line highlighting always on
   :ensure t
@@ -125,7 +133,8 @@
   :defer t
   :config
    (add-hook 'clojure-mode-hook 'paredit-mode)
-   (add-hook 'cider-repl-mode-hook 'paredit-mode))
+   (add-hook 'cider-repl-mode-hook 'paredit-mode)
+   (add-hook 'lisp-mode-hook 'paredit-mode))
 
 (use-package autopair                ; Auto matching of )}]" chars
   :ensure t)
@@ -172,6 +181,8 @@
   :defer 1
   :config
   (global-company-mode)
+  (setq company-tooltip-limit 20)
+  (setq company-idle-delay .4)
 
   (validate-setq
    company-tooltip-align-annotations t
@@ -183,6 +194,7 @@
 (use-package company-quickhelp      ; Show help in tooltip
   :ensure t
   :after company
+  :init (add-hook 'global-company-mode-hook #'company-quickhelp-mode)
   :config (company-quickhelp-mode))
 
 ;;; Major Modes Start Here
@@ -201,6 +213,7 @@
   )
 
 (use-package python                  ; Python Major mode
+  :ensure t
   :defer t
   :config
   ;; PEP 8 compliant filling rules, 79 chars maximum
@@ -221,6 +234,12 @@
   :after company
   :config (add-to-list 'company-backends 'company-anaconda))
 
+(use-package company-jedi        ; Backend for Company
+  :ensure t
+  :defer t
+  :after company
+  :config (add-to-list 'company-backends 'company-jedi))
+
 (use-package pyenv-mode           ; Virtual Environ
   :ensure t
   :defer t
@@ -231,7 +250,7 @@
 (use-package ein                   ; Jupyter Notebook Support
   :ensure t
   :defer t
-  :mode "\\.ipynb\\"
+  :mode "\\.ipynb$"
   :init (require 'ein))
 
 (use-package cider                  ; Clojure REPL and Major Mode
@@ -264,32 +283,62 @@
 
 (use-package go-mode                   ; Major Mode for Editing Golang
   
-  ; http://tleyden.github.io/blog/2014/05/22/configure-emacs-as-a-go-editor-from-scratch/
+					; http://tleyden.github.io/blog/2014/05/22/configure-emacs-as-a-go-editor-from-scratch/
+  :ensure t
   :defer t
   :bind (("M-." . godef-jump)
 	 ("M-*" . pop-tag-mark))
   :config
   (add-hook 'before-save-hook 'gofmt-before-save))
 
+(use-package company-go                ; Backend for Company
+  :ensure t
+  :defer t
+  :init
+  (with-eval-after-load 'company
+    (add-to-list 'company-backends 'company-go)))
+
+(use-package go-eldoc                  ; Eldoc for Golang
+  :ensure t
+  :defer t
+  :init
+  (add-hook 'go-mode-hook 'go-eldoc-setup))
+
 (use-package web-mode                  ; HTML and CSS Editing
+  :ensure t
   :defer t
   :mode "\\.html?\\'")
 
-(use-package irony                      ; Major Mode for C/C++/Obj-C
-  :defer t
-  :config
-   (add-hook 'c++-mode-hook 'irony-mode)
-   (add-hook 'c-mode-hook 'irony-mode)
-   (add-hook 'objc-mode-hook 'irony-mode))
+(defun my-irony-mode-hook ()
+  (define-key irony-mode-map [remap completion-at-point]
+    'irony-completion-at-point-async)
+  (define-key irony-mode-map [remap complete-symbol]
+    'irony-completion-at-point-async))
 
-(use-package company-irony              ; Company Backend for C/C++
-  :defer t
-  :after company
-  :config (add-to-list 'company-backends 'company-anaconda))
+(use-package irony                     ; Major Mode for C/C++/Obj-C
+  :ensure t
+  :config
+  (progn
+    (use-package company-irony
+      :ensure t
+      :config
+      (add-to-list 'company-backends 'company-irony))
+    (add-hook 'c++-mode-hook 'irony-mode)
+    (add-hook 'c-mode-hook 'irony-mode)
+    (add-hook 'irony-mode-hook 'my-irony-mode-hook)
+    (add-hook 'irony-mode-hook 'company-irony-setup-begin-commands)))
 
 ;;; ENSIME is a framework for interactive Scala / Apache Spark
 (use-package ensime                     ; Major Mode for Scala / Java
   :ensure t
-  :defer t)
+  :defer t
+  :mode "\\.scala$"
+  :mode "\\.java$")
+
+(use-package markdown-mode              ; Major Mode for Markdown
+  :ensure t
+  :defer t
+  :mode "\\.md$"
+  :mode "\\.markdown$")
 
 (provide 'init);;; init.el ends here
