@@ -1,8 +1,8 @@
 ;;; init.el --- Emacs configuration of Ian Clark -*- lexical-binding: t; -*-
 ;;
-;; Copyright (c) 2012-2017 Ian Clark <idclark13@gmail.com>
+;; Copyright (c) 2008-2017 Ian Clark <idclark13@gmail.com>
 ;;
-;; Author: Ian Clark <idclark13@gmail.com
+;; Author: Ian Clark <idclark13@gmail.com>
 ;; URL: https://gihub.com/idclark/.emacs.d
 ;; Keywords: convenience
 
@@ -144,6 +144,7 @@
   :defer t)
 
 (use-package git-gutter             ; Color the gutter with code diffs from last commit
+  :ensure t
   :defer t
   :after magit
   :config
@@ -227,18 +228,19 @@
 (use-package anaconda-mode        ; Backend for Python mode
   :ensure t
   :defer t
-  :init (add-hook 'python-mode-hook #'anaconda-mode-hook))
+  :after python
+  :init (add-hook 'python-mode-hook #'anaconda-mode))
 
 (use-package company-anaconda    ; Backend for Company
   :ensure t
   :after company
   :config (add-to-list 'company-backends 'company-anaconda))
 
-(use-package company-jedi        ; Backend for Company
-  :ensure t
-  :defer t
-  :after company
-  :config (add-to-list 'company-backends 'company-jedi))
+;; (use-package company-jedi        ; Backend for Company
+;;   :ensure t
+;;   :defer t
+;;   :after company
+;;   :config (add-to-list 'company-backends 'company-jedi))
 
 (use-package pyenv-mode           ; Virtual Environ
   :ensure t
@@ -314,6 +316,11 @@
     'irony-completion-at-point-async)
   (define-key irony-mode-map [remap complete-symbol]
     'irony-completion-at-point-async))
+
+;; When building on OS X homebrew will put llvm
+;; in a non standard location.
+;; M-x irony-install-server troubleshooting
+;; https://github.com/Sarcasm/irony-mode/issues/167
 
 (use-package irony                     ; Major Mode for C/C++/Obj-C
   :ensure t
