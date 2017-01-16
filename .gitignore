@@ -4,3 +4,14 @@
 .DS_/
 elpa/*
 /ac-comphist.dat
+/.python-environments/*
+/abbrev_defs
+irony/*
+request/*
+/ido.last~
+/ido.last
+eshell/*
+ensime/*
+/custom.el
+auto-save-list/*
+ananconda-mode/*
