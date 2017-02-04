@@ -81,13 +81,15 @@
 ;;; Environment Fixup - grab PATH and friends from .zshenv
 (use-package exec-path-from-shell
   :ensure t
-  :defer f
-  :init
+  :if (memq window-system '(mac ns x))
+  :config
+  (progn
+    (setenv "SHELL"
+	    "/usr/local/bin/zsh")
+    (getenv "SHELL")
   (exec-path-from-shell-copy-env "GOPATH")
-  (exec-path-from-shell-copy-env "SHELL")
   (exec-path-from-shell-copy-env "PATH")
-  (when (memq window-system '(mac ns x))
-    (exec-path-from-shell-initialize)))
+  (exec-path-from-shell-initialize)))
 
 ;;; OS X support
 (setq inhibit-splash-screen t)
@@ -114,6 +116,9 @@
 (global-set-key (kbd "M-%") 'abbrev-expansion)
 ; Same for regexp
 (global-set-key (kbd "C-M-/") 'query-replace-regexp)
+
+; Ensure matching pairs are enabled
+(electric-pair-mode 1)
 
 ;;; Global Configurations
 (use-package ido                      ; Better file completion with C-x C-f
@@ -235,12 +240,6 @@
   :ensure t
   :after company
   :config (add-to-list 'company-backends 'company-anaconda))
-
-;; (use-package company-jedi        ; Backend for Company
-;;   :ensure t
-;;   :defer t
-;;   :after company
-;;   :config (add-to-list 'company-backends 'company-jedi))
 
 (use-package pyenv-mode           ; Virtual Environ
   :ensure t
