@@ -227,7 +227,8 @@
 
   (let ((ipython (executable-find "ipython")))
     (if ipython
-        (validate-setq python-shell-interpreter ipython)
+        (validate-setq python-shell-interpreter ipython
+		       python-shell-interpreter-args "--simple-prompt -i")
       (warn "IPython is missing, falling back to default python"))))
 
 (use-package anaconda-mode        ; Backend for Python mode
