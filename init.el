@@ -347,4 +347,9 @@
   :mode "\\.md$"
   :mode "\\.markdown$")
 
+(use-package js2-mode                   ; ECMAScript Major Mode
+  :ensure t
+  :defer t
+  :mode "\\.js$")
+
 (provide 'init);;; init.el ends here
