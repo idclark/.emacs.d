@@ -68,8 +68,8 @@
 (require 'time-date)
 
 ;;; Move Customization file out of init.el
-(setq custom-file "~/.emacs.d/custom.el")
-(load custom-file)
+;(setq custom-file "~/.emacs.d/custom.el")
+;(load custom-file)
 
 ;;; Disable the site default settings
 (setq inhibit-default-init t)
@@ -354,3 +354,19 @@
   :mode "\\.js$")
 
 (provide 'init);;; init.el ends here
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(global-hl-line-mode t)
+ '(ido-everywhere t)
+ '(ido-mode t nil (ido))
+ '(package-selected-packages
+   '(lsp-ui lsp-mode ensime company-irony irony web-mode go-eldoc company-go go-mode ein pyenv-mode company-anaconda anaconda-mode ess company-quickhelp company yasnippet flycheck-pos-tip flycheck git-gutter magit autopair exec-path-from-shell validate use-package color-theme-sanityinc-tomorrow)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
