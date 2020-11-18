@@ -16,3 +16,4 @@ ensime/*
 auto-save-list/*
 ananconda-mode/*
 .lsp-sessions-v1
+/.lsp-session-v1
