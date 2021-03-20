@@ -171,12 +171,6 @@
   :config
   (global-flycheck-mode))
 
-(use-package flycheck-pos-tip      ; Flycheck error appear in tooltip
-  :ensure t
-  :after flycheck
-  :config
-   (flycheck-pos-tip-mode))
-
 ;;; Autocompletion configurations
 (use-package yasnippet              ; Snippets
   :ensure t
@@ -231,12 +225,6 @@
 		       python-shell-interpreter-args "--simple-prompt -i")
       (warn "IPython is missing, falling back to default python"))))
 
-(use-package anaconda-mode        ; Backend for Python mode
-  :ensure t
-  :defer t
-  :after python
-  :init (add-hook 'python-mode-hook #'anaconda-mode))
-
 (use-package company-anaconda    ; Backend for Company
   :ensure t
   :after company
@@ -248,12 +236,6 @@
   :after python
   :init
   (pyenv-mode))
-
-(use-package ein                   ; Jupyter Notebook Support
-  :ensure t
-  :defer t
-  :mode "\\.ipynb$"
-  :init (require 'ein))
 
 (use-package cider                  ; Clojure REPL and Major Mode
   ; https://github.com/clojure-emacs/cider/blob/master/doc/code_completion.md
@@ -363,7 +345,7 @@
  '(ido-everywhere t)
  '(ido-mode t nil (ido))
  '(package-selected-packages
-   '(lsp-ui lsp-mode ensime company-irony irony web-mode go-eldoc company-go go-mode ein pyenv-mode company-anaconda anaconda-mode ess company-quickhelp company yasnippet flycheck-pos-tip flycheck git-gutter magit autopair exec-path-from-shell validate use-package color-theme-sanityinc-tomorrow)))
+   '(lsp-python-ms lsp-ui lsp-mode ensime company-irony irony web-mode go-eldoc company-go go-mode pyenv-mode ess company-quickhelp company yasnippet flycheck-pos-tip flycheck git-gutter magit autopair exec-path-from-shell validate use-package color-theme-sanityinc-tomorrow)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
