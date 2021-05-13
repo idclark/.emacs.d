@@ -1,6 +1,6 @@
 ;;; init.el --- Emacs configuration of Ian Clark -*- lexical-binding: t; -*-
 ;;
-;; Copyright (c) 2008-2017 Ian Clark <idclark13@gmail.com>
+;; Copyright (c) 2008-2021 Ian Clark <idclark13@gmail.com>
 ;;
 ;; Author: Ian Clark <idclark13@gmail.com>
 ;; URL: https://gihub.com/idclark/.emacs.d
@@ -50,9 +50,9 @@
       ;; packages over everything and only fall back to GNU or MELPA if
       ;; necessary.
       package-archive-priorities
-      '(("MELPA Stable" . 10)
+      '(("MELPA Stable" . 5)
         ("GNU ELPA"     . 5)
-        ("MELPA"        . 0))
+        ("MELPA"        . 20))
       )
 
 (package-initialize)
@@ -172,30 +172,41 @@
   (global-flycheck-mode))
 
 ;;; Autocompletion configurations
+(defun efs/lsp-mode-setup ()
+  (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
+  (lsp-headerline-breadcrumb-mode))
+
+(use-package lsp-mode
+  :commands (lsp lsp-deferred)
+  :hook (lsp-mode . efs/lsp-mode-setup)
+  :init
+  (setq lsp-keymap-prefix "C-c l")
+  (setq lsp-gopls-use-placeholders nil))  ;; Or 'C-l', 's-l'
+
+(use-package lsp-ui
+  :hook (lsp-mode . lsp-ui-mode)
+  :custom
+  (lsp-ui-doc-position 'bottom))
+
 (use-package yasnippet              ; Snippets
   :ensure t
   :defer t)
-
-(use-package company                ; Graphical auto completion
+ 
+(use-package company               ; graphical autocompletion
   :ensure t
-  :defer 1
-  :config
-  (global-company-mode)
-  (setq company-tooltip-limit 20)
-  (setq company-idle-delay .4)
+  :after lsp-mode
+  :hook (lsp-mode . company-mode)
+  :bind (:map company-active-map
+         ("<tab>" . company-complete-selection))
+        (:map lsp-mode-map
+         ("<tab>" . company-indent-or-complete-common))
+  :custom
+  (company-minimum-prefix-length 1)
+  (company-idle-delay 0.0))
 
-  (validate-setq
-   company-tooltip-align-annotations t
-   company-tooltip-flip-when-above t
-   ;; Easy navigation to candidates with M-<n>
-   company-show-numbers t)
-  :diminish company-mode)
+ (use-package company-box
+   :hook (company-mode . company-box-mode))
 
-(use-package company-quickhelp      ; Show help in tooltip
-  :ensure t
-  :after company
-  :init (add-hook 'global-company-mode-hook #'company-quickhelp-mode)
-  :config (company-quickhelp-mode))
 
 ;;; Major Modes Start Here
 
@@ -212,30 +223,28 @@
       (normal-erase-is-backspace-mode 1))
   )
 
-(use-package python                  ; Python Major mode
+(use-package python-mode        ; Major mode for Python
   :ensure t
-  :defer t
+  :hook (python-mode . lsp-deferred)
+  :custom
+  ;; NOTE: Set these if Python 3 is called "python3" on your system!
+  ;; (python-shell-interpreter "python3")
+  ;; (dap-python-executable "python3")
+  (dap-python-debugger 'debugpy)
   :config
-  ;; PEP 8 compliant filling rules, 79 chars maximum
-  (add-hook 'python-mode-hook (lambda () (validate-setq fill-column 79)))
+  (require 'dap-python))
 
-  (let ((ipython (executable-find "ipython")))
-    (if ipython
-        (validate-setq python-shell-interpreter ipython
-		       python-shell-interpreter-args "--simple-prompt -i")
-      (warn "IPython is missing, falling back to default python"))))
-
-(use-package company-anaconda    ; Backend for Company
+(use-package lsp-pyright
   :ensure t
-  :after company
-  :config (add-to-list 'company-backends 'company-anaconda))
+  ;:init (setq lsp-python-ms-auto-install-server t)
+  :hook (python-mode . (lambda ()
+                          (require 'lsp-pyright)
+                          (lsp))))
 
 (use-package pyenv-mode           ; Virtual Environ
-  :ensure t
-  :defer t
-  :after python
-  :init
-  (pyenv-mode))
+  :after python-mode
+  :config
+  (pyenv-mode 1))
 
 (use-package cider                  ; Clojure REPL and Major Mode
   ; https://github.com/clojure-emacs/cider/blob/master/doc/code_completion.md
@@ -265,28 +274,27 @@
   (setq org-tag-alist '(("@jobs" . ?j) ("@python" . ?p) ("@blogs" . ?b)
 			("@ml-stats" . ?m) ("@finance" . ?f))))
 
+;; Set up before-save hooks to format buffer and add/delete imports.
+;; Make sure you don't have other gofmt/goimports hooks enabled.
+(defun lsp-go-install-save-hooks ()
+  (add-hook 'before-save-hook #'lsp-format-buffer t t)
+  (add-hook 'before-save-hook #'lsp-organize-imports t t))
+
 (use-package go-mode                   ; Major Mode for Editing Golang
-  
-					; http://tleyden.github.io/blog/2014/05/22/configure-emacs-as-a-go-editor-from-scratch/
+  					
   :ensure t
   :defer t
-  :bind (("M-." . godef-jump)
-	 ("M-*" . pop-tag-mark))
   :config
-  (add-hook 'before-save-hook 'gofmt-before-save))
+  (add-hook 'go-mode-hook #'lsp-deferred)
+  (add-hook 'go-mode-hook #'lsp-go-install-save-hooks))
+  
 
-(use-package company-go                ; Backend for Company
-  :ensure t
-  :defer t
-  :init
-  (with-eval-after-load 'company
-    (add-to-list 'company-backends 'company-go)))
-
-(use-package go-eldoc                  ; Eldoc for Golang
-  :ensure t
-  :defer t
-  :init
-  (add-hook 'go-mode-hook 'go-eldoc-setup))
+;; (use-package company-go                ; Backend for Company
+;;   :ensure t
+;;   :defer t
+;;   :init
+;;   (with-eval-after-load 'company
+;;     (add-to-list 'company-backends 'company-go)))
 
 (use-package web-mode                  ; HTML and CSS Editing
   :ensure t
@@ -317,13 +325,6 @@
     (add-hook 'irony-mode-hook 'my-irony-mode-hook)
     (add-hook 'irony-mode-hook 'company-irony-setup-begin-commands)))
 
-;;; ENSIME is a framework for interactive Scala / Apache Spark
-(use-package ensime                     ; Major Mode for Scala / Java
-  :ensure t
-  :defer t
-  :mode "\\.scala$"
-  :mode "\\.java$")
-
 (use-package markdown-mode              ; Major Mode for Markdown
   :ensure t
   :defer t
@@ -345,7 +346,7 @@
  '(ido-everywhere t)
  '(ido-mode t nil (ido))
  '(package-selected-packages
-   '(lsp-python-ms lsp-ui lsp-mode ensime company-irony irony web-mode go-eldoc company-go go-mode pyenv-mode ess company-quickhelp company yasnippet flycheck-pos-tip flycheck git-gutter magit autopair exec-path-from-shell validate use-package color-theme-sanityinc-tomorrow)))
+   '(js2-mode python-mode ess yasnippet flycheck git-gutter magit exec-path-from-shell use-package yaml-mode web-mode rust-mode async lsp-pyright company-box ensime company-irony company-go company-quickhelp company autopair validate color-theme-sanityinc-tomorrow)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
