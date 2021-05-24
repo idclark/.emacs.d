@@ -148,18 +148,6 @@
   :ensure t
   :defer t)
 
-(use-package git-gutter             ; Color the gutter with code diffs from last commit
-  :ensure t
-  :defer t
-  :after magit
-  :config
-  (global-git-commit-mode t)
-  (setq git-gutter:modified-sign "  ")
-  (setq git-gutter:added-sign "  ")
-  (set-face-background 'git-gutter:modified "blue") ;; background color
-  (set-face-foreground 'git-gutter:added "green")
-  (add-to-list 'git-gutter:update-hooks 'magit-revert-buffer-hook))
-
 (use-package color-theme-sanityinc-tomorrow               ; My Color Theme
   :ensure t
   :init
@@ -346,7 +334,7 @@
  '(ido-everywhere t)
  '(ido-mode t nil (ido))
  '(package-selected-packages
-   '(js2-mode python-mode ess yasnippet flycheck git-gutter magit exec-path-from-shell use-package yaml-mode web-mode rust-mode async lsp-pyright company-box ensime company-irony company-go company-quickhelp company autopair validate color-theme-sanityinc-tomorrow)))
+   '(lsp-ui protobuf-mode js2-mode python-mode ess yasnippet flycheck git-gutter magit exec-path-from-shell use-package yaml-mode web-mode rust-mode async lsp-pyright company-box ensime company-irony company-go company-quickhelp company autopair validate color-theme-sanityinc-tomorrow)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
