@@ -195,6 +195,18 @@
  (use-package company-box
    :hook (company-mode . company-box-mode))
 
+;; dap mode for attaching debugger to lsp sessions
+(use-package dap-mode
+:config
+(dap-mode 1)
+(require 'dap-go)
+(require 'dap-hydra))
+
+(use-package dap-ui
+:ensure nil
+:config
+(dap-ui-mode 1))
+
 
 ;;; Major Modes Start Here
 
@@ -275,14 +287,6 @@
   :config
   (add-hook 'go-mode-hook #'lsp-deferred)
   (add-hook 'go-mode-hook #'lsp-go-install-save-hooks))
-  
-
-;; (use-package company-go                ; Backend for Company
-;;   :ensure t
-;;   :defer t
-;;   :init
-;;   (with-eval-after-load 'company
-;;     (add-to-list 'company-backends 'company-go)))
 
 (use-package web-mode                  ; HTML and CSS Editing
   :ensure t
