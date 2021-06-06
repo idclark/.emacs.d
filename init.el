@@ -274,6 +274,14 @@
   (setq org-tag-alist '(("@jobs" . ?j) ("@python" . ?p) ("@blogs" . ?b)
 			("@ml-stats" . ?m) ("@finance" . ?f))))
 
+(use-package company-org-block
+  :ensure t
+  :custom
+  (company-org-block-edit-style 'auto) ;; 'auto, 'prompt, or 'inline
+  :hook ((org-mode . (lambda ()
+                       (setq-local company-backends '(company-org-block))
+                       (company-mode +1)))))
+
 ;; Set up before-save hooks to format buffer and add/delete imports.
 ;; Make sure you don't have other gofmt/goimports hooks enabled.
 (defun lsp-go-install-save-hooks ()
@@ -338,7 +346,7 @@
  '(ido-everywhere t)
  '(ido-mode t nil (ido))
  '(package-selected-packages
-   '(lsp-ui protobuf-mode js2-mode python-mode ess yasnippet flycheck git-gutter magit exec-path-from-shell use-package yaml-mode web-mode rust-mode async lsp-pyright company-box ensime company-irony company-go company-quickhelp company autopair validate color-theme-sanityinc-tomorrow)))
+   '(lsp-ui protobuf-mode python-mode ess flycheck git-gutter magit exec-path-from-shell use-package yaml-mode web-mode rust-mode async lsp-pyright company-box ensime company-irony company-go company-quickhelp company autopair validate color-theme-sanityinc-tomorrow)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
