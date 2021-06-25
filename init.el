@@ -296,34 +296,30 @@
   (add-hook 'go-mode-hook #'lsp-deferred)
   (add-hook 'go-mode-hook #'lsp-go-install-save-hooks))
 
+(use-package rustic
+  :ensure
+  ;; :bind (:map rustic-mode-map
+  ;;             ("M-j" . lsp-ui-imenu)
+  ;;             ("M-?" . lsp-find-references)
+  ;;             ("C-c C-c l" . flycheck-list-errors)
+  ;;             ("C-c C-c a" . lsp-execute-code-action)
+  ;;             ("C-c C-c r" . lsp-rename)
+  ;;             ("C-c C-c q" . lsp-workspace-restart)
+  ;;             ("C-c C-c Q" . lsp-workspace-shutdown)
+  ;;             ("C-c C-c s" . lsp-rust-analyzer-status))
+  :config
+  ;; uncomment for less flashiness
+  ;; (setq lsp-eldoc-hook nil)
+  ;; (setq lsp-enable-symbol-highlighting nil)
+  ;; (setq lsp-signature-auto-activate nil)
+
+  ;; comment to disable rustfmt on save
+  (setq rustic-format-on-save t))
+
 (use-package web-mode                  ; HTML and CSS Editing
   :ensure t
   :defer t
   :mode "\\.html?\\'")
-
-(defun my-irony-mode-hook ()
-  (define-key irony-mode-map [remap completion-at-point]
-    'irony-completion-at-point-async)
-  (define-key irony-mode-map [remap complete-symbol]
-    'irony-completion-at-point-async))
-
-;; When building on OS X homebrew will put llvm
-;; in a non standard location.
-;; M-x irony-install-server troubleshooting
-;; https://github.com/Sarcasm/irony-mode/issues/167
-
-(use-package irony                     ; Major Mode for C/C++/Obj-C
-  :ensure t
-  :config
-  (progn
-    (use-package company-irony
-      :ensure t
-      :config
-      (add-to-list 'company-backends 'company-irony))
-    (add-hook 'c++-mode-hook 'irony-mode)
-    (add-hook 'c-mode-hook 'irony-mode)
-    (add-hook 'irony-mode-hook 'my-irony-mode-hook)
-    (add-hook 'irony-mode-hook 'company-irony-setup-begin-commands)))
 
 (use-package markdown-mode              ; Major Mode for Markdown
   :ensure t
@@ -331,25 +327,4 @@
   :mode "\\.md$"
   :mode "\\.markdown$")
 
-(use-package js2-mode                   ; ECMAScript Major Mode
-  :ensure t
-  :defer t
-  :mode "\\.js$")
-
 (provide 'init);;; init.el ends here
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(global-hl-line-mode t)
- '(ido-everywhere t)
- '(ido-mode t nil (ido))
- '(package-selected-packages
-   '(lsp-ui protobuf-mode python-mode ess flycheck git-gutter magit exec-path-from-shell use-package yaml-mode web-mode rust-mode async lsp-pyright company-box ensime company-irony company-go company-quickhelp company autopair validate color-theme-sanityinc-tomorrow)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
