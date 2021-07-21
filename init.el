@@ -68,8 +68,9 @@
 (require 'time-date)
 
 ;;; Move Customization file out of init.el
-;(setq custom-file "~/.emacs.d/custom.el")
-;(load custom-file)
+(setq custom-file "~/.emacs.d/custom.el")
+(when (file-exists-p custom-file)
+  (load custom-file))
 
 ;;; Disable the site default settings
 (setq inhibit-default-init t)
