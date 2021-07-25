@@ -88,7 +88,6 @@
     (setenv "SHELL"
 	    "/usr/local/bin/zsh")
     (getenv "SHELL")
-  (exec-path-from-shell-copy-env "GOPATH")
   (exec-path-from-shell-copy-env "PATH")
   (exec-path-from-shell-initialize)))
 
@@ -266,6 +265,7 @@
   (setq org-log-done 'time)
   (setq org-src-fontify-natively t)
   (setq org-src-tab-acts-natively t)
+  (setq org-agenda-files "/Users/ian/org-notes")
   (setq org-todo-keywords
 	'((sequence "TODO" "IN-PROGRESS" "PENDING" "DONE")))
 
