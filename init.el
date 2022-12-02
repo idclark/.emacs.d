@@ -1,4 +1,4 @@
-;;; init.el --- Emacs configuration of Ian Clark -*- lexical-binding: t; -*-
+;;; init.el --- emacs configuration of Ian Clark -*- lexical-binding: t; -*-
 ;;
 ;; Copyright (c) 2008-2021 Ian Clark <idclark13@gmail.com>
 ;;
@@ -103,10 +103,10 @@
        (set-face-attribute 'default nil :font "Menlo-14")))
 
 ;;; Key Bindings
-(setq mac-option-key-is-meta nil
-      mac-command-key-is-meta t
-      mac-command-modifier 'meta
-      mac-option-modifier 'none)
+;; (setq mac-option-key-is-meta nil
+;;       mac-command-key-is-meta t
+;;       mac-command-modifier 'meta
+;;       mac-option-modifier 'none)
 
 (global-set-key (kbd "RET") 'newline-and-indent)
 (global-set-key [C-tab] 'other-window)
@@ -181,9 +181,14 @@
   :custom
   (lsp-ui-doc-position 'bottom))
 
-(use-package yasnippet              ; Snippets
+(use-package yasnippet             ; Snippets
   :ensure t
-  :defer t)
+  :init (add-hook 'prog-mode-hook #'yas-minor-mode)
+  :config (yas-reload-all))
+
+(use-package yasnippet-snippets    ; Download lang specific snippets
+  :ensure t
+  :after yasnippet)
  
 (use-package company               ; graphical autocompletion
   :ensure t
