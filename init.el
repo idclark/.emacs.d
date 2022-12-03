@@ -181,6 +181,9 @@
   :custom
   (lsp-ui-doc-position 'bottom))
 
+(use-package lsp-treemacs                  ; Tree project viewer for lsp projects
+  :after lsp)
+
 (use-package yasnippet             ; Snippets
   :ensure t
   :init (add-hook 'prog-mode-hook #'yas-minor-mode)
