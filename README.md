@@ -3,30 +3,27 @@ Emacs configuration scripts
 
 One central configuration for work, home, and virtual machines.
 
-I build Emacs straight from Git `master` branch, but any version >= 24 that 
+I build Emacs from `https://github.com/d12frosted/homebrew-emacs-plus`, but any version >= 27 that 
 suppots `package.el` should work just fine. This configuration has been tested on both OS X 
-and Linux. Windows... you're on your own. 
+and Linux. For linux, complile direclty against the `master` branch. Windows... you're on your own. 
 
 The configuration consists of a single `init.el` containing only `use-package` declarations. 
 Custom snippets can be found in `/lisp` and added to `load-path` as needed. 
 
-I've refactored any use of `Auto-Complete` in favor of [Company-mode](https://company-mode.github.io/). 
+I've refactored any use of `Auto-Complete` in favor of [LSP](https://emacs-lsp.github.io/lsp-mode/). 
 The backends are more robust and I've found customization to be more consistent and easier to tweak. 
 
 Supported Modes
 ---------------
 
-* Python mode with Ancaconda and virtual environment / IPython support
-	* Experimental support for Jupyter notebooks via `EIN` package.
+* Python mode with the pyright lsp server / poetry / pyenv virtual environments
+* Rust support with Rustic and lsp
 * LaTeX with Auctex
 * Clojure mode with Cider
 * ESS for R	
 * Magit and Org mode 
 * Web mode for html / jinja templating
 * Golang 
-* C/C++/Obj-C with Irony 
-* Scala and Java IDE with ENSIME mode 
-  * Experimental support for Apache Spark repls with Python and Scala 
 
 License
 ========
