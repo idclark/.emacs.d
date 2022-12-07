@@ -102,11 +102,11 @@
 (cond (window-system
        (set-face-attribute 'default nil :font "Menlo-14")))
 
-;;; Key Bindings
-;; (setq mac-option-key-is-meta nil
-;;       mac-command-key-is-meta t
-;;       mac-command-modifier 'meta
-;;       mac-option-modifier 'none)
+Key Bindings
+(setq mac-option-key-is-meta nil
+      mac-command-key-is-meta t
+      mac-command-modifier 'meta
+      mac-option-modifier 'none)
 
 (global-set-key (kbd "RET") 'newline-and-indent)
 (global-set-key [C-tab] 'other-window)
@@ -147,6 +147,20 @@
 (use-package magit                   ; Must have for git repos
   :ensure t
   :defer t)
+
+(use-package git-gutter              ; Git diff coloring in gutter of buffer
+  :ensure t
+  :hook (prog-mode . git-gutter-mode)
+  :config
+  (setq git-gutter:update-interval 0.02))
+
+(use-package git-gutter-fringe
+  :ensure t
+  :config
+  (define-fringe-bitmap 'git-gutter-fr:added [224] nil nil '(center repeated))
+  (define-fringe-bitmap 'git-gutter-fr:modified [224] nil nil '(center repeated))
+  (define-fringe-bitmap 'git-gutter-fr:deleted [128 192 224 240] nil nil 'bottom))
+
 
 (use-package color-theme-sanityinc-tomorrow               ; My Color Theme
   :ensure t
