@@ -102,7 +102,7 @@
 (cond (window-system
        (set-face-attribute 'default nil :font "Menlo-14")))
 
-Key Bindings
+; Key Bindings
 (setq mac-option-key-is-meta nil
       mac-command-key-is-meta t
       mac-command-modifier 'meta
