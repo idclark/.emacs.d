@@ -195,8 +195,7 @@
   :custom
   (lsp-ui-doc-position 'bottom))
 
-(use-package all-the-icons
-  :if (display-graphic-p))                 ; Who doesn't like nice icons
+(use-package all-the-icons)                 ; Who doesn't like nice icons
 
 (use-package lsp-treemacs                  ; Tree project viewer for lsp projects
   :after lsp)
