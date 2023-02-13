@@ -150,9 +150,9 @@
 
 (use-package git-gutter              ; Git diff coloring in gutter of buffer
   :ensure t
-  :hook (prog-mode . git-gutter-mode)
   :config
-  (setq git-gutter:update-interval 0.02))
+  (setq git-gutter:update-interval 0.02)
+  (global-git-gutter-mode +1))
 
 (use-package git-gutter-fringe
   :ensure t
@@ -195,7 +195,8 @@
   :custom
   (lsp-ui-doc-position 'bottom))
 
-(use-package all-the-icons)                 ; Who doesn't like nice icons
+(use-package all-the-icons
+  :if (display-graphic-p))                 ; Who doesn't like nice icons
 
 (use-package lsp-treemacs                  ; Tree project viewer for lsp projects
   :after lsp)
