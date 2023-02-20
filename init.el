@@ -141,9 +141,6 @@
    (add-hook 'cider-repl-mode-hook 'paredit-mode)
    (add-hook 'lisp-mode-hook 'paredit-mode))
 
-(use-package autopair                ; Auto matching of )}]" chars
-  :ensure t)
-
 (use-package magit                   ; Must have for git repos
   :ensure t
   :defer t)
@@ -226,16 +223,17 @@
    :hook (company-mode . company-box-mode))
 
 ;; dap mode for attaching debugger to lsp sessions
-(use-package dap-mode
-:config
-(dap-mode 1)
-(require 'dap-go)
-(require 'dap-hydra))
+;; we'll come back to this latter. 
+;; (use-package dap-mode
+;; :config
+;; (dap-mode 1)
+;; (require 'dap-go)
+;; (require 'dap-hydra))
 
-(use-package dap-ui
-:ensure nil
-:config
-(dap-ui-mode 1))
+;; (use-package dap-ui
+;; :ensure nil
+;; :config
+;; (dap-ui-mode 1))
 
 
 ;;; Major Modes Start Here
