@@ -274,6 +274,9 @@
   :config
   (pyenv-mode 1))
 
+(use-package lsp-java)
+(add-hook 'java-mode-hook #'lsp)
+
 (use-package cider                  ; Clojure REPL and Major Mode
   ; https://github.com/clojure-emacs/cider/blob/master/doc/code_completion.md
   :defer t
