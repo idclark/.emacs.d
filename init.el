@@ -42,7 +42,6 @@
 (require 'package)
 (setq package-enable-at-startup nil)
 (setq package-archives
-      ;; Package archives, the usual suspects
       '(("GNU ELPA"     . "https://elpa.gnu.org/packages/")
         ("MELPA Stable" . "https://stable.melpa.org/packages/")
         ("MELPA"        . "https://melpa.org/packages/"))
@@ -51,8 +50,7 @@
       package-archive-priorities
       '(("MELPA Stable" . 5)
         ("GNU ELPA"     . 5)
-        ("MELPA"        . 20))
-      )
+        ("MELPA"        . 20)))
 
 (package-initialize)
 
@@ -73,10 +71,6 @@
 
 ;;; Disable the site default settings
 (setq inhibit-default-init t)
-
-;;; Customization
-(use-package validate                     ; Validate options
-  :ensure t)
 
 ;;; Environment Fixup - grab PATH and friends from .zshenv
 (use-package exec-path-from-shell
@@ -117,128 +111,146 @@
 (electric-pair-mode 1)
 
 ;;; Global Configurations
-(use-package ido                      ; Better file completion with C-x C-f
-  :ensure t
-  :config
-  (ido-mode 1)
-  (ido-everywhere 1))
 
 (use-package hl-line                  ; Line highlighting always on
   :ensure t
   :config
   (global-hl-line-mode 1))
 
-(use-package paredit                 ; Must have for lisps
+(use-package paredit                  ; Must have for lisps
   :ensure t
   :defer t
   :config
-   (add-hook 'clojure-mode-hook 'paredit-mode)
-   (add-hook 'cider-repl-mode-hook 'paredit-mode)
-   (add-hook 'lisp-mode-hook 'paredit-mode))
+  (add-hook 'clojure-mode-hook 'paredit-mode)
+  (add-hook 'cider-repl-mode-hook 'paredit-mode)
+  (add-hook 'lisp-mode-hook 'paredit-mode))
 
-(use-package magit                   ; Must have for git repos
+(use-package magit                    ; Must have for git repos
   :ensure t
   :defer t)
 
-(use-package git-gutter              ; Git diff coloring in gutter of buffer
+(use-package diff-hl                  ; Git diff indicators in the fringe
   :ensure t
   :config
-  (setq git-gutter:update-interval 0.02)
-  (global-git-gutter-mode +1))
+  (global-diff-hl-mode)
+  :hook
+  (magit-pre-refresh  . diff-hl-magit-pre-refresh)
+  (magit-post-refresh . diff-hl-magit-post-refresh))
 
-(use-package git-gutter-fringe
-  :ensure t
-  :config
-  (define-fringe-bitmap 'git-gutter-fr:added [224] nil nil '(center repeated))
-  (define-fringe-bitmap 'git-gutter-fr:modified [224] nil nil '(center repeated))
-  (define-fringe-bitmap 'git-gutter-fr:deleted [128 192 224 240] nil nil 'bottom))
-
-
-(use-package color-theme-sanityinc-solarized              ; My Color Theme
+(use-package color-theme-sanityinc-solarized
   :ensure t
   :init
   (load-theme 'sanityinc-solarized-light 'no-confirm))
 
-(use-package flycheck               ; On the fly syntax checking for major modes
+(use-package which-key                ; Show available keybindings after prefix
   :ensure t
-  :defer 1
   :config
-  (global-flycheck-mode))
+  (which-key-mode 1))
 
-;;; Autocompletion configurations
-(defun efs/lsp-mode-setup ()
-  (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
-  (lsp-headerline-breadcrumb-mode))
+;;; Completion — vertico + orderless + marginalia + consult
 
-(use-package lsp-mode
+(use-package vertico                  ; Vertical completion UI
   :ensure t
-  :commands (lsp lsp-deferred)
-  :custom
-  (lsp-rust-analyzer-cargo-watch-command "clippy")
-  (lsp-eldoc-render-all t)
-  (lsp-idle-delay 0.6)
-  (lsp-rust-analyzer-server-display-inlay-hints t)
-  :hook (lsp-mode . efs/lsp-mode-setup)
   :init
-  (setq lsp-keymap-prefix "C-c l")
-  (setq lsp-gopls-use-placeholders nil))  ;; Or 'C-l', 's-l'
+  (vertico-mode 1))
 
-(use-package lsp-ui
+(use-package orderless                ; Space-separated fragment matching
   :ensure t
-  :hook (lsp-mode . lsp-ui-mode)
   :custom
-  (lsp-ui-doc-position 'bottom))
+  (completion-styles '(orderless basic))
+  (completion-category-overrides '((file (styles basic partial-completion)))))
 
-(use-package all-the-icons
+(use-package marginalia               ; Annotations in the minibuffer
   :ensure t
-  :if (display-graphic-p))                 ; Who doesn't like nice icons
+  :init
+  (marginalia-mode 1))
 
-(use-package lsp-treemacs                  ; Tree project viewer for lsp projects
+(use-package consult                  ; Enhanced commands using completion
   :ensure t
-  :after lsp)
+  :bind
+  ("C-x b" . consult-buffer)
+  ("M-s l" . consult-line)
+  ("M-s r" . consult-ripgrep)
+  ("M-g g" . consult-goto-line))
 
-(use-package yasnippet             ; Snippets
+;;; Icons
+
+(use-package nerd-icons               ; Run M-x nerd-icons-install-fonts once after install
+  :ensure t
+  :if (display-graphic-p))
+
+;;; Tree-sitter — auto-switch to *-ts-mode variants when grammars are available
+
+(use-package treesit-auto
+  :ensure t
+  :custom
+  (treesit-auto-install 'prompt)
+  :config
+  (treesit-auto-add-to-auto-mode-alist 'all)
+  (global-treesit-auto-mode))
+
+;;; LSP — eglot (built-in since Emacs 29)
+
+(use-package eglot
+  :ensure nil
+  :hook
+  (python-mode    . eglot-ensure)
+  (python-ts-mode . eglot-ensure)
+  (go-mode        . eglot-ensure)
+  (go-ts-mode     . eglot-ensure)
+  (java-mode      . eglot-ensure)
+  (java-ts-mode   . eglot-ensure)
+  :bind (:map eglot-mode-map
+         ("C-c C-a" . eglot-code-actions)
+         ("C-c C-r" . eglot-rename)
+         ("C-c C-f" . eglot-format-buffer)))
+
+(use-package eglot-java               ; Handles JDT LS install for Java
+  :ensure t
+  :hook
+  (java-mode    . eglot-java-mode)
+  (java-ts-mode . eglot-java-mode))
+
+;;; In-buffer completion — corfu
+
+(use-package corfu
+  :ensure t
+  :custom
+  (corfu-auto t)
+  (corfu-auto-delay 0.2)
+  (corfu-auto-prefix 1)
+  (corfu-quit-no-match 'separator)
+  :init
+  (global-corfu-mode))
+
+(use-package nerd-icons-corfu         ; Icons in the corfu popup
+  :ensure t
+  :after corfu
+  :config
+  (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
+
+;;; Snippets
+
+(use-package yasnippet
   :ensure t
   :init (add-hook 'prog-mode-hook #'yas-minor-mode)
   :config (yas-reload-all))
 
-(use-package yasnippet-snippets    ; Download lang specific snippets
+(use-package yasnippet-snippets
   :ensure t
   :after yasnippet)
- 
-(use-package company               ; graphical autocompletion
-  :ensure t
-  :after lsp-mode
-  :hook (lsp-mode . company-mode)
-  :bind (:map company-active-map
-         ("<tab>" . company-complete-selection))
-        (:map lsp-mode-map
-         ("<tab>" . company-indent-or-complete-common))
-  :custom
-  (company-minimum-prefix-length 1)
-  (company-idle-delay 0.0))
 
- (use-package company-box
-   :ensure t
-   :hook (company-mode . company-box-mode))
-
-;; dap mode for attaching debugger to lsp sessions
-;; we'll come back to this latter. 
+;; dap mode for attaching debugger — revisit when eglot-dap support matures
 ;; (use-package dap-mode
 ;; :config
 ;; (dap-mode 1)
 ;; (require 'dap-go)
 ;; (require 'dap-hydra))
 
-;; (use-package dap-ui
-;; :ensure nil
-;; :config
-;; (dap-ui-mode 1))
-
 
 ;;; Major Modes Start Here
 
-(use-package ess                    ; Major Mode for R and S+
+(use-package ess                      ; Major Mode for R and S+
   :ensure t
   :defer 1
   :init
@@ -246,106 +258,60 @@
   :config
   (define-key comint-mode-map [C-up] 'comint-previous-matching-input-from-input)
   (define-key comint-mode-map [C-down] 'comint-next-matching-input-from-input)
-
   (if (display-graphic-p)
-      (normal-erase-is-backspace-mode 1))
-  )
+      (normal-erase-is-backspace-mode 1)))
 
-(use-package python-mode        ; Major mode for Python
+(use-package python-mode              ; Major mode for Python — eglot provides LSP via pyright
   :ensure t)
-
-(use-package lsp-pyright
-  :ensure t
-  ;:init (setq lsp-python-ms-auto-install-server t)
-  :hook (python-mode . (lambda ()
-                          (require 'lsp-pyright)
-                          (lsp))))
 
 ;; (use-package pyenv-mode           ; Virtual Environ
 ;;   :after python-mode
 ;;   :config
 ;;   (pyenv-mode 1))
 
-(use-package lsp-java
-  :ensure t
-  :hook (java-mode . lsp))
-
-(use-package cider                  ; Clojure REPL and Major Mode
+(use-package cider                    ; Clojure REPL and Major Mode
   ; https://github.com/clojure-emacs/cider/blob/master/doc/code_completion.md
   :defer t
   :config
-  (add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
-  (with-eval-after-load 'flycheck (flycheck-clojure-setup))
-  (with-eval-after-load 'flycheck
-    (setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
-  )
-	    
-(use-package org                       ; Org Mode for plain text notes and agenda
+  (add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode))
+
+(use-package org                      ; Org Mode for plain text notes and agenda
   :ensure t
   :defer t
   :config
-  ;insert timestamp on done todo items
   (setq org-log-done 'time)
   (setq org-src-fontify-natively t)
   (setq org-src-tab-acts-natively t)
   (setq org-agenda-files "/Users/ian/org-notes")
   (setq org-todo-keywords
 	'((sequence "TODO" "IN-PROGRESS" "PENDING" "DONE")))
-
   (setq org-todo-keyword-faces
 	'(("IN-PROGRESS" . "orange") ("PENDING" . "yellow")))
-
   (setq org-tag-alist '(("@jobs" . ?j) ("@python" . ?p) ("@blogs" . ?b)
 			("@ml-stats" . ?m) ("@finance" . ?f))))
 
-(use-package company-org-block
-  :ensure t
-  :custom
-  (company-org-block-edit-style 'auto) ;; 'auto, 'prompt, or 'inline
-  :hook ((org-mode . (lambda ()
-                       (setq-local company-backends '(company-org-block))
-                       (company-mode +1)))))
+(defun ian/go-save-hooks ()
+  (add-hook 'before-save-hook #'eglot-format-buffer t t))
 
-;; Set up before-save hooks to format buffer and add/delete imports.
-;; Make sure you don't have other gofmt/goimports hooks enabled.
-(defun lsp-go-install-save-hooks ()
-  (add-hook 'before-save-hook #'lsp-format-buffer t t)
-  (add-hook 'before-save-hook #'lsp-organize-imports t t))
-
-(use-package go-mode                   ; Major Mode for Editing Golang
-  					
+(use-package go-mode                  ; Major Mode for Editing Golang
   :ensure t
   :defer t
-  :config
-  (add-hook 'go-mode-hook #'lsp-deferred)
-  (add-hook 'go-mode-hook #'lsp-go-install-save-hooks))
+  :hook
+  (go-mode    . ian/go-save-hooks)
+  (go-ts-mode . ian/go-save-hooks))
 
-(use-package rustic
+(use-package rustic                   ; Rust major mode — eglot provides LSP via rust-analyzer
   :ensure t
-  ;; :bind (:map rustic-mode-map
-  ;;             ("M-j" . lsp-ui-imenu)
-  ;;             ("M-?" . lsp-find-references)
-  ;;             ("C-c C-c l" . flycheck-list-errors)
-  ;;             ("C-c C-c a" . lsp-execute-code-action)
-  ;;             ("C-c C-c r" . lsp-rename)
-  ;;             ("C-c C-c q" . lsp-workspace-restart)
-  ;;             ("C-c C-c Q" . lsp-workspace-shutdown)
-  ;;             ("C-c C-c s" . lsp-rust-analyzer-status))
-  :config
-  ;; uncomment for less flashiness
-  ;; (setq lsp-eldoc-hook nil)
-  ;; (setq lsp-enable-symbol-highlighting nil)
-  ;; (setq lsp-signature-auto-activate nil)
+  :custom
+  (rustic-lsp-client 'eglot)
+  (rustic-format-on-save t))
 
-  ;; comment to disable rustfmt on save
-  (setq rustic-format-on-save t))
-
-(use-package web-mode                  ; HTML and CSS Editing
+(use-package web-mode                 ; HTML and CSS Editing
   :ensure t
   :defer t
   :mode "\\.html?\\'")
 
-(use-package markdown-mode              ; Major Mode for Markdown
+(use-package markdown-mode            ; Major Mode for Markdown
   :ensure t
   :defer t
   :mode "\\.md$"
