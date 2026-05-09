@@ -43,12 +43,11 @@
 (setq package-enable-at-startup nil)
 (setq package-archives
       ;; Package archives, the usual suspects
-      '(("GNU ELPA"     . "http://elpa.gnu.org/packages/")
+      '(("GNU ELPA"     . "https://elpa.gnu.org/packages/")
         ("MELPA Stable" . "https://stable.melpa.org/packages/")
         ("MELPA"        . "https://melpa.org/packages/"))
-      ;; Prefer MELPA Stable over GNU over MELPA.  IOW prefer MELPA's stable
-      ;; packages over everything and only fall back to GNU or MELPA if
-      ;; necessary.
+      ;; Prefer MELPA over MELPA Stable and GNU ELPA — most LSP/modern
+      ;; packages are only on MELPA.
       package-archive-priorities
       '(("MELPA Stable" . 5)
         ("GNU ELPA"     . 5)
@@ -68,9 +67,9 @@
 (require 'time-date)
 
 ;;; Move Customization file out of init.el
-;; (setq custom-file "~/.emacs.d/custom.el")
-;; (when (file-exists-p custom-file)
-;;   (load custom-file))
+(setq custom-file "~/.emacs.d/custom.el")
+(when (file-exists-p custom-file)
+  (load custom-file))
 
 ;;; Disable the site default settings
 (setq inhibit-default-init t)
@@ -84,12 +83,9 @@
   :ensure t
   :if (memq window-system '(mac ns x))
   :config
-  (progn
-    (setenv "SHELL"
-	    "/usr/local/bin/zsh")
-    (getenv "SHELL")
+  (setenv "SHELL" "/usr/local/bin/zsh")
   (exec-path-from-shell-copy-env "PATH")
-  (exec-path-from-shell-initialize)))
+  (exec-path-from-shell-initialize))
 
 ;;; OS X support
 (setq inhibit-splash-screen t)
@@ -124,17 +120,16 @@
 (use-package ido                      ; Better file completion with C-x C-f
   :ensure t
   :config
-  (custom-set-variables
-   '(ido-everywhere t)
-   '(ido-mode t)))
+  (ido-mode 1)
+  (ido-everywhere 1))
 
 (use-package hl-line                  ; Line highlighting always on
   :ensure t
   :config
-  (custom-set-variables
-  '(global-hl-line-mode t)))
+  (global-hl-line-mode 1))
 
 (use-package paredit                 ; Must have for lisps
+  :ensure t
   :defer t
   :config
    (add-hook 'clojure-mode-hook 'paredit-mode)
@@ -199,6 +194,7 @@
   :if (display-graphic-p))                 ; Who doesn't like nice icons
 
 (use-package lsp-treemacs                  ; Tree project viewer for lsp projects
+  :ensure t
   :after lsp)
 
 (use-package yasnippet             ; Snippets
@@ -256,15 +252,7 @@
   )
 
 (use-package python-mode        ; Major mode for Python
-  :ensure t
-  :hook (python-mode . lsp-deferred)
-  :custom
-  ;; NOTE: Set these if Python 3 is called "python3" on your system!
-  ;; (python-shell-interpreter "python3")
-  ;; (dap-python-executable "python3")
-  (dap-python-debugger 'debugpy)
-  :config
-  (require 'dap-python))
+  :ensure t)
 
 (use-package lsp-pyright
   :ensure t
@@ -280,18 +268,16 @@
 
 (use-package lsp-java
   :ensure t
-  )
-(add-hook 'java-mode-hook #'lsp)
+  :hook (java-mode . lsp))
 
 (use-package cider                  ; Clojure REPL and Major Mode
   ; https://github.com/clojure-emacs/cider/blob/master/doc/code_completion.md
   :defer t
   :config
   (add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
-  (eval-after-load 'flycheck '(flycheck-clojure-setup))
-
-  (eval-after-load 'flycheck
-    '(setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
+  (with-eval-after-load 'flycheck (flycheck-clojure-setup))
+  (with-eval-after-load 'flycheck
+    (setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
   )
 	    
 (use-package org                       ; Org Mode for plain text notes and agenda
@@ -366,29 +352,3 @@
   :mode "\\.markdown$")
 
 (provide 'init);;; init.el ends here
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-enabled-themes '(sanityinc-solarized-light))
- '(custom-safe-themes
-   '("6819104c5f7d70485b32c10323aa396806d282fcee5b707e462bf3d156f44c39"
-     "b11edd2e0f97a0a7d5e66a9b82091b44431401ac394478beb44389cf54e6db28"
-     default))
- '(global-hl-line-mode t)
- '(ido-everywhere t)
- '(ido-mode t nil (ido))
- '(package-selected-packages
-   '(0blayout 0xc all-the-icons color-theme-sanityinc-solarized
-	      color-theme-sanityinc-tomorrow company-box
-	      company-org-block ess exec-path-from-shell flycheck
-	      git-gutter-fringe go-mode lsp-java lsp-pyright lsp-ui
-	      magit python-mode rustic validate web-mode
-	      yasnippet-snippets)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
