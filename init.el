@@ -68,9 +68,9 @@
 (require 'time-date)
 
 ;;; Move Customization file out of init.el
-(setq custom-file "~/.emacs.d/custom.el")
-(when (file-exists-p custom-file)
-  (load custom-file))
+;; (setq custom-file "~/.emacs.d/custom.el")
+;; (when (file-exists-p custom-file)
+;;   (load custom-file))
 
 ;;; Disable the site default settings
 (setq inhibit-default-init t)
@@ -162,7 +162,7 @@
 (use-package color-theme-sanityinc-tomorrow               ; My Color Theme
   :ensure t
   :init
-  (load-theme 'sanityinc-tomorrow-eighties 'no-confirm))
+  (load-theme 'sanityinc-tomorrow-night 'no-confirm))
 
 (use-package flycheck               ; On the fly syntax checking for major modes
   :ensure t
@@ -176,6 +176,7 @@
   (lsp-headerline-breadcrumb-mode))
 
 (use-package lsp-mode
+  :ensure t
   :commands (lsp lsp-deferred)
   :custom
   (lsp-rust-analyzer-cargo-watch-command "clippy")
@@ -188,11 +189,13 @@
   (setq lsp-gopls-use-placeholders nil))  ;; Or 'C-l', 's-l'
 
 (use-package lsp-ui
+  :ensure t
   :hook (lsp-mode . lsp-ui-mode)
   :custom
   (lsp-ui-doc-position 'bottom))
 
 (use-package all-the-icons
+  :ensure t
   :if (display-graphic-p))                 ; Who doesn't like nice icons
 
 (use-package lsp-treemacs                  ; Tree project viewer for lsp projects
@@ -220,6 +223,7 @@
   (company-idle-delay 0.0))
 
  (use-package company-box
+   :ensure t
    :hook (company-mode . company-box-mode))
 
 ;; dap mode for attaching debugger to lsp sessions
@@ -269,12 +273,14 @@
                           (require 'lsp-pyright)
                           (lsp))))
 
-(use-package pyenv-mode           ; Virtual Environ
-  :after python-mode
-  :config
-  (pyenv-mode 1))
+;; (use-package pyenv-mode           ; Virtual Environ
+;;   :after python-mode
+;;   :config
+;;   (pyenv-mode 1))
 
-(use-package lsp-java)
+(use-package lsp-java
+  :ensure t
+  )
 (add-hook 'java-mode-hook #'lsp)
 
 (use-package cider                  ; Clojure REPL and Major Mode
@@ -329,7 +335,7 @@
   (add-hook 'go-mode-hook #'lsp-go-install-save-hooks))
 
 (use-package rustic
-  :ensure
+  :ensure t
   ;; :bind (:map rustic-mode-map
   ;;             ("M-j" . lsp-ui-imenu)
   ;;             ("M-?" . lsp-find-references)
@@ -360,3 +366,29 @@
   :mode "\\.markdown$")
 
 (provide 'init);;; init.el ends here
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-enabled-themes '(sanityinc-solarized-light))
+ '(custom-safe-themes
+   '("6819104c5f7d70485b32c10323aa396806d282fcee5b707e462bf3d156f44c39"
+     "b11edd2e0f97a0a7d5e66a9b82091b44431401ac394478beb44389cf54e6db28"
+     default))
+ '(global-hl-line-mode t)
+ '(ido-everywhere t)
+ '(ido-mode t nil (ido))
+ '(package-selected-packages
+   '(0blayout 0xc all-the-icons color-theme-sanityinc-solarized
+	      color-theme-sanityinc-tomorrow company-box
+	      company-org-block ess exec-path-from-shell flycheck
+	      git-gutter-fringe go-mode lsp-java lsp-pyright lsp-ui
+	      magit python-mode rustic validate web-mode
+	      yasnippet-snippets)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
