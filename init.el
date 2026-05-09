@@ -154,10 +154,10 @@
   (define-fringe-bitmap 'git-gutter-fr:deleted [128 192 224 240] nil nil 'bottom))
 
 
-(use-package color-theme-sanityinc-tomorrow               ; My Color Theme
+(use-package color-theme-sanityinc-solarized              ; My Color Theme
   :ensure t
   :init
-  (load-theme 'sanityinc-tomorrow-night 'no-confirm))
+  (load-theme 'sanityinc-solarized-light 'no-confirm))
 
 (use-package flycheck               ; On the fly syntax checking for major modes
   :ensure t
