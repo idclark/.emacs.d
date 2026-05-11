@@ -261,8 +261,8 @@
   (if (display-graphic-p)
       (normal-erase-is-backspace-mode 1)))
 
-(use-package python-mode              ; Major mode for Python — eglot provides LSP via pyright
-  :ensure t)
+;;; Python uses the built-in python.el — the MELPA python-mode package
+;;; pollutes completion-at-point-functions globally, breaking other modes.
 
 ;; (use-package pyenv-mode           ; Virtual Environ
 ;;   :after python-mode
