@@ -189,6 +189,12 @@
   (treesit-auto-add-to-auto-mode-alist 'all)
   (global-treesit-auto-mode))
 
+;;; Breadcrumb — file path + symbol in the header line
+
+(use-package breadcrumb
+  :ensure t
+  :hook (eglot-managed-mode . breadcrumb-mode))
+
 ;;; LSP — eglot (built-in since Emacs 29)
 
 (use-package eglot
